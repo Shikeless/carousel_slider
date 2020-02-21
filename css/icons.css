@@ -1,0 +1,23 @@
+#left {
+  left: 0;
+}
+
+#right {
+  right: 0;
+}
+
+svg {
+  z-index: 3;
+  top: 50%;
+  transform: translateY(-50%);
+  position: absolute;
+  fill: #a3b5b3;
+}
+
+svg:hover {
+  fill: #5b6e6c;
+}
+
+svg:active {
+  fill: #333f3e;
+}

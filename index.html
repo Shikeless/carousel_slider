@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="navigation">
+        <svg width="60px" height="105px" viewBox="0 0 132 213" id="left">
+          <path
+            d="M 115.00,1.60
+             C 118.95,2.84 127.72,10.35 129.69,14.04
+               130.78,16.09 130.90,17.74 130.98,20.00
+               131.42,32.17 124.05,34.98 116.00,43.00
+               116.00,43.00 72.17,85.57 72.17,85.57
+               72.17,85.57 58.00,99.00 58.00,99.00
+               56.40,100.62 53.04,103.58 53.04,106.00
+               53.04,108.42 56.40,111.38 58.00,113.00
+               58.00,113.00 71.74,126.35 71.74,126.35
+               71.74,126.35 116.00,169.00 116.00,169.00
+               123.24,176.23 131.59,180.59 130.96,192.00
+               130.59,198.71 122.18,208.09 115.96,210.24
+               113.63,211.05 110.47,211.07 108.00,210.98
+               100.22,210.70 95.18,204.17 90.00,199.00
+               90.00,199.00 59.00,169.27 59.00,169.27
+               59.00,169.27 16.72,128.42 16.72,128.42
+               11.97,123.86 2.78,116.55 1.30,110.00
+               -1.00,99.81 5.20,95.20 11.58,88.72
+               11.58,88.72 20.68,79.76 20.68,79.76
+               20.68,79.76 81.00,21.83 81.00,21.83
+               87.73,15.74 95.96,5.02 104.00,1.60
+               107.30,0.97 111.73,0.50 115.00,1.60 Z"
+          />
+        </svg>
+        <svg width="60px" height="105px" viewBox="0 0 132 213" id="right">
+          <path
+            d="M 44.00,15.00
+             C 44.00,15.00 71.58,41.84 71.58,41.84
+               71.58,41.84 85.20,54.66 85.20,54.66
+               85.20,54.66 112.18,80.52 112.18,80.52
+               116.77,84.63 129.45,96.45 130.70,102.00
+               133.64,115.03 119.93,123.91 111.87,131.87
+               111.87,131.87 48.91,192.18 48.91,192.18
+               44.66,196.20 33.52,208.28 28.91,210.16
+               26.64,211.09 23.45,211.07 21.00,210.98
+               18.81,210.91 17.14,210.77 15.09,209.87
+               11.25,208.17 3.09,200.04 1.70,195.99
+               1.01,193.98 0.93,191.11 1.04,189.00
+               1.54,180.09 11.90,173.10 18.00,167.00
+               18.00,167.00 63.00,123.67 63.00,123.67
+               66.10,120.60 78.02,109.98 78.80,107.00
+               79.55,104.19 76.73,101.80 74.99,100.00
+               74.99,100.00 59.83,85.57 59.83,85.57
+               59.83,85.57 16.00,43.00 16.00,43.00
+               7.95,34.98 0.58,32.17 1.02,20.00
+               1.32,11.67 9.23,5.70 16.00,1.93
+               29.66,-2.16 35.27,6.27 44.00,15.00 Z"
+          />
+        </svg>
+        <div class="carousel">
+          <div id="img1" class="background"></div>
+          <div id="img2">
+            <div id="overlay"></div>
+            <div id="footer"><h1 id="title"></h1></div>
+          </div>
+          <div id="img3" class="background"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    let arr = [
+      { text: "de Finibus Bonorum et Malorum" },
+      { text: "Aldus PageMaker" },
+      { text: "Lorem Ipsum Hampden-Sydney" }
+    ];
+
+    function preload() {
+      for (var i = 0; i < arguments.length; i++) {
+        arr[i].img = new Image();
+        arr[i].img.src = preload.arguments[i];
+      }
+    }
+
+    preload("img/1.jpg", "img/2.jpg", "img/3.jpg");
+
+    const images = document.getElementsByClassName("overlay");
+    const title = document.getElementById("title");
+    const back = document.getElementById("left");
+    const forward = document.getElementById("right");
+    const overlay = document.getElementById("overlay");
+    const footer = document.getElementById("footer");
+
+    title.innerHTML = arr[1].text;
+
+    const rotate = direction => {
+      footer.style.opacity = 0;
+      title.innerHTML = arr[1].text;
+      if (window.innerWidth > 1170) {
+        for (let i = 1; i <= 3; i++) {
+          document.getElementById(`img${i}`).classList.add(`${direction}-${i}`);
+        }
+        setTimeout(() => {
+          for (let i = 1; i <= 3; i++) {
+            document
+              .getElementById(`img${i}`)
+              .classList.remove(`${direction}-${i}`);
+            document.getElementById(`img${i}`).style.background = `url('${
+              arr[i - 1].img.src
+            }') center`;
+          }
+          setTimeout(() => {
+            footer.style.opacity = 1;
+            footer.classList.remove("fade");
+            document.getElementById("right").style.pointerEvents = "auto";
+            document.getElementById("left").style.pointerEvents = "auto";
+          }, 470);
+          footer.classList.add("fade");
+        }, 970);
+      } else {
+        rotateMobile(direction);
+      }
+    };
+
+    const rotateMobile = direction => {
+      footer.style.opacity = 0;
+      title.innerHTML = arr[1].text;
+      direction == "forward"
+        ? (overlay.style.background = `url('${arr[2].img.src}') center`)
+        : (overlay.style.background = `url('${arr[0].img.src}') center`);
+      overlay.classList.add("crossfade");
+      for (let i = 1; i <= 3; i++) {
+        document.getElementById(`img${i}`).style.background = `url('${
+          arr[i - 1].img.src
+        }') center`;
+      }
+      setTimeout(() => {
+        footer.style.opacity = 1;
+        footer.classList.remove("fade");
+        document.getElementById("right").style.pointerEvents = "auto";
+        document.getElementById("left").style.pointerEvents = "auto";
+        overlay.classList.remove("crossfade");
+      }, 470);
+    };
+
+    forward.addEventListener("click", () => {
+      arr.unshift(arr.pop());
+      document.getElementById("right").style.pointerEvents = "none";
+      document.getElementById("left").style.pointerEvents = "none";
+      rotate("forward");
+    });
+
+    back.addEventListener("click", () => {
+      arr.push(arr.shift());
+      document.getElementById("right").style.pointerEvents = "none";
+      document.getElementById("left").style.pointerEvents = "none";
+      rotate("backward");
+    });
+  </script>
+</html>
